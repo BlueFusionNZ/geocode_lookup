@@ -1,0 +1,5 @@
+services:
+  geocode_lookup.default:
+    class: Drupal\geocode_lookup\Lookup
+    arguments: ["@http_client"]
+

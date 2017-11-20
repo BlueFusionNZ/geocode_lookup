@@ -1,0 +1,8 @@
+name: Geocode Lookup
+type: module
+description: Takes entity Address field and populates entity with goecode data from Google
+core: 8.x
+package: BlueFusion
+dependencies:
+  - address
+  - geolocation

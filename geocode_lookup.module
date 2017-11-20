@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Contains geocode_lookup.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_help().
+ */
+function geocode_lookup_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the geocode_lookup module.
+    case 'help.page.geocode_lookup':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Takes an Address field and populates entity with '.
+                  'geocode data from Google') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ *
+ * If this node is of the correct type perform lookup to get lat & long
+ * for mapping.
+ */
+function geocode_lookup_node_presave(EntityInterface $node) {
+  // If this node is the right type then send to geocoding.
+  if ('group' == $node->getType() ||
+      'member' == $node->getType()) {
+    $lookup = \Drupal::service('geocode_lookup.default');
+    $lookup->setAddress($node->get('field_location')->getValue());
+
+    $new_field_value[0]['lat'] = $lookup->getLat();
+    $new_field_value[0]['lng'] = $lookup->getLong();
+    $node->field_geolocation = $new_field_value;
+  }
+}
