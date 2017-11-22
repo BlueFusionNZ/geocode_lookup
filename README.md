@@ -17,6 +17,6 @@ Please report bugs, comments, pull requests & improvements at the [github repo](
 
 * Usual D8 method
 * You will then need to make some manual code changes at:
-  * geocode_lookup.module - change the presave hook to reference the node/entity and field names
+  * geocode_lookup.module - change the presave hook to reference the node/entity and field names for your site.
 * You probably want to hide the Geolocation field in the form UI and display it as a map in the view mode.
  
