@@ -17,8 +17,6 @@ Please report bugs, comments, pull requests & improvements at the [github repo](
 
 * Usual D8 method
 * You will then need to make some manual code changes at:
-  * src/Lookup.php 
-    * find the setAddress function and change the default country as required & fields to read from the Address field
   * geocode_lookup.module - change the presave hook to reference the node/entity and field names
 * You probably want to hide the Geolocation field in the form UI and display it as a map in the view mode.
  
