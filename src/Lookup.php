@@ -11,13 +11,19 @@ use GuzzleHttp\Client;
  */
 class Lookup implements LookupInterface {
 
-  protected $googleApiKey = 'API-KEY-GOES-HERE';
   /**
    * GuzzleHttp\Client definition.
    *
    * @var \GuzzleHttp\Client
    */
   protected $guzzleClient;
+
+  /**
+   * Address string sent to google api.
+   *
+   * @var string
+   *
+   */
   protected $googleAddressString;
 
   protected $lat;
@@ -28,6 +34,7 @@ class Lookup implements LookupInterface {
    */
   public function __construct(Client $http_client) {
     $this->guzzleClient = $http_client;
+    $this->googleApiKey = \Drupal::config('geolocation.settings')->get('google_map_api_key');
   }
 
   /**
@@ -39,19 +46,15 @@ class Lookup implements LookupInterface {
     $string = '';
 
     // Take the bits of the address we need and make them
-    // into string for google.
+    // into a string for google.
     $aa = $address_array[0];
 
-    $string = (!empty($aa['address_line1'])) ? $aa['address_line1'] . ", " : '';
-    $string .= !empty($aa['address_line2']) ? $aa['address_line2'] . ", " : '';
-    $string .= !empty($aa['dependent_locality']) ? $aa['dependent_locality'] . ", " : '';
-    $string .= !empty($aa['locality']) ? $aa['locality'] . ", " : '';
-    $string .= !empty($aa['postal_code']) ? $aa['postal_code'] . ", " : '';
-    if (strlen($string)) {
-      // User may not have set an address for this entity, keep it blank in
-      // that case.
-      $string .= 'New Zealand';
-    }
+    $string = (!empty($aa['address_line1'])) ? $aa['address_line1'] . ', ' : '';
+    $string .= (!empty($aa['address_line2'])) ? $aa['address_line2'] . ', ' : '';
+    $string .= (!empty($aa['dependent_locality'])) ? $aa['dependent_locality'] . ', ' : '';
+    $string .= (!empty($aa['locality'])) ? $aa['locality'] . ', ' : '';
+    $string .= (!empty($aa['postal_code'])) ? $aa['postal_code'] . ', ' : '';
+
     $string = str_replace(" ", "+", $string);
     $this->googleAddressString = $string;
   }
