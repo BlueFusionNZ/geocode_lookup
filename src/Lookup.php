@@ -43,6 +43,7 @@ class Lookup implements LookupInterface {
    * This will need changing for different states, below works for NZ.
    */
   public function setAddress(array $address_array) {
+
     $string = '';
 
     // Take the bits of the address we need and make them
@@ -56,7 +57,16 @@ class Lookup implements LookupInterface {
     $string .= (!empty($aa['postal_code'])) ? $aa['postal_code'] . ', ' : '';
 
     $string = str_replace(" ", "+", $string);
-    $this->googleAddressString = $string;
+    $this->resetIfNewAddress($string);
+  }
+
+  public function resetIfNewAddress(string $newAddress) {
+    // Unset lat & lng if this is a new address to ensure lookup is performed.
+    if ($this->googleAddressString !== $newAddress) {
+      $this->googleAddressString = $newAddress;
+      $this->lat = NULL;
+      $this->long = NULL;
+    }
   }
 
   /**
