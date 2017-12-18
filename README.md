@@ -1,3 +1,9 @@
+THIS MODULE IS PROBABLY NO LONGER NEEDED
+========================================
+You should check out https://www.drupal.org/project/geolocation_address_link instead and see if it does what you need.
+
+
+
 Address & Geolocation
 =====================
 
